@@ -181,6 +181,7 @@ public class InMemoryTaskManager implements TaskManager {
             return subTasks.get(id).toString();
         }
     }
+
     @Override
     public void updateTask(Task newTask, int id) {
         tasks.put(id, newTask);

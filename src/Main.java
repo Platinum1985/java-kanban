@@ -15,16 +15,12 @@ public class Main {
         Task task2 = new Task("Покупка Авто", "Желательно Порше", Status.NEW);
         t1.addTask(task1);
         t1.addTask(task2);
-
         t1.addTask(task1);
         t1.addTask(task2);
-
-
         System.out.println(t1.printAllTasks());
         Epic e1 = new Epic("Епотека", "Особняк на берегу моря", Status.NEW);
         t1.addEpics(e1);
-        Epic e2= new Epic("вернуть", "hfjdk",Status.NEW);
-
+        Epic e2 = new Epic("вернуть", "hfjdk", Status.NEW);
         SubTask subTask1 = new SubTask("Работа", "Найти высокооплачиваемую работу",
                 Status.NEW);
         SubTask subTask2 = new SubTask("Здоровье", "Следить за здор",
@@ -39,11 +35,11 @@ public class Main {
         System.out.println(t1.printAllTasks());
         System.out.println(t1.printAllEpics());
         System.out.println(t1.printAllSubTasks());  */
-       // t1.deleteSubTask(1);
+        // t1.deleteSubTask(1);
         t1.getTaskById(0);
         t1.getTaskById(1);
         t1.getEpicById(2);
-       // t1.deleteSubTask(3);
+        // t1.deleteSubTask(3);
         t1.getSubTaskById(4);
         t1.getSubTaskById(4);
         t1.deleteSubTask(4);
