@@ -23,7 +23,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public LinkedHashMap<Integer, Task> getHistory() {
-        return history;
+        return history; //
     }
 }
 
