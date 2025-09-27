@@ -20,7 +20,7 @@ class InMemoryTaskManagerTest {
         assertThrowsExactly(IllegalArgumentException.class, () -> {
             manager.addSubTask(epic, epic.getId());
         });
-    }
+    } 
 
     @Test
     void testSubTaskCannotAddSelfAsSubtask() {
@@ -112,7 +112,7 @@ class InMemoryTaskManagerTest {
 
         assertEquals(initialNameSubTask, addedSubTask.getName());
         assertEquals(initialDescriptionSubTask, addedSubTask.getDescription());
-        assertEquals(initialStatusSubTask, addedSubTask.getSt());
+        assertEquals(initialStatusSubTask, addedSubTask.getSt());//
     }
 
 

@@ -6,26 +6,21 @@ public class Task {
     private String name;
     private String description; //"Описание"
     private Status st = Status.NEW;
-    private int id=-1;
+    private int id = -1;
 
     public void setId(int id) {
         this.id = id;
     }
 
-
     public Task(String name, String description, Status st) {
         this.name = name;
         this.description = description;
         this.st = st;
-
-
     }
 
     public int getId() {
-
         return this.id;
     }
-
 
     @Override
     public boolean equals(Object o) {

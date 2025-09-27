@@ -34,7 +34,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Collection<Task> getHistory() {
-        return historyManager.getHistory().values();
+        return historyManager.getHistory();
     }
 
     @Override
@@ -181,6 +181,7 @@ public class InMemoryTaskManager implements TaskManager {
             return subTasks.get(id).toString();
         }
     }
+
     @Override
     public void updateTask(Task newTask, int id) {
         tasks.put(id, newTask);
