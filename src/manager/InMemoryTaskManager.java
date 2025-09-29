@@ -1,9 +1,6 @@
 package manager;
 
-import model.Epic;
-import model.Status;
-import model.SubTask;
-import model.Task;
+import model.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,24 +8,36 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    public int idTask = 0;// Счётчик идентификаторов
+    public int idTask = 1;// Счётчик идентификаторов
+
+    public void setTasks(Map<Integer, Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void setEpics(Map<Integer, Epic> epics) {
+        this.epics = epics;
+    }
+
+    public void setSubTasks(Map<Integer, SubTask> subTasks) {
+        this.subTasks = subTasks;
+    }
+
     private Map<Integer, Task> tasks = new HashMap(); // Список задач
     private Map<Integer, Epic> epics = new HashMap();
-    private Map<Integer, SubTask> subTasks = new HashMap<>();
-    // public ArrayList<Task> history=new ArrayList<>();
+    private Map<Integer, SubTask> subTasks = new HashMap();
     HistoryManager historyManager = Managers.getDefaultHistory();
 
 
     public void addTask(Task task) {
         for (Task existingTask : tasks.values()) {
             if (existingTask.equals(task)) {
-                // Задача с такими же полями уже существует в HashMap
                 System.out.println("Задача с такими же данными уже существует.");
                 return; // Выходим из метода, не добавляя задачу
             }
         }
-        tasks.put(idTask, task);
         task.setId(idTask);
+        task.setTaskType(TaskType.TASK);
+        tasks.put(idTask, task);
         idTask++;
     }
 
@@ -40,28 +49,34 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void addEpics(Epic epic) {
         for (Epic existingEpic : epics.values()) {
+            System.out.println(epics.values());
             if (existingEpic.equals(epic)) {
                 // Задача с такими же полями уже существует в HashMap
                 System.out.println("Задача с такими же данными уже существует.");
                 return; // Выходим из метода, не добавляя задачу
             }
         }
-        epics.put(idTask, epic);
+
         epic.setId(idTask);
+        System.out.println(idTask);
+        epic.setTaskType(TaskType.EPIC);
+        epics.put(idTask, epic);
         idTask++;
     }
 
     @Override
     public void addSubTask(SubTask subTask, int epicId) {
         subTask.setId(idTask);
-
         subTasks.put(idTask, subTask);
         Epic epic = epics.get(epicId);
         if (epic != null) {
+            subTask.setYourEpicId(epicId);
+            subTask.setTaskType(TaskType.SUBTASK);
             epic.subTaskIds.add(idTask);
+
             idTask++;
         }
-        Epic e = epics.get(epicId);
+        Epic e =  epics.get(epicId);
         int size = e.subTaskIds.size();
         int countProgress = 0;
         int countDone = 0;
@@ -82,7 +97,6 @@ public class InMemoryTaskManager implements TaskManager {
             e.setSt(Status.NEW);
         }
     }
-
     public String checkStatusEpic(Epic e) { //получение статуса эпика
         int size = e.subTaskIds.size();
         int countProgress = 0;
@@ -168,8 +182,9 @@ public class InMemoryTaskManager implements TaskManager {
             return "Эпика с таким id нет";
         } else {
             historyManager.add(epics.get(id));
-            return epics.get(id).toString();
+           // return epics.get(id).toString();
         }
+        return epics.get(id).toString();
     }
 
     @Override
