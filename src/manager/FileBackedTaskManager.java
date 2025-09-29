@@ -7,12 +7,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileBackedTaskManager extends InMemoryTaskManager{
+public class FileBackedTaskManager extends InMemoryTaskManager {
     private String filePath;
 
 
     public FileBackedTaskManager(String filePath) {
-        this.filePath = filePath; }
+        this.filePath = filePath;
+    }
 
     public void save() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
@@ -37,17 +38,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
                     SubTask subTask = (SubTask) task;
                     bw.write(subTask.getId() + "," + subTask.getTaskType() + "," + subTask.getName() + "," + subTask.getSt() + "," + subTask.getDescription() + "," + subTask.getYourEpicId());
                     bw.newLine();
-                } else{
+                } else {
                     bw.write(task.getId() + "," + task.getTaskType() + "," + task.getName() + "," + task.getSt() + "," + task.getDescription() + ",");
                     bw.newLine(); // Добавляем новую строку после каждой записи
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Ошибка при записи данных в файл: " + e.getMessage());//исправил
         }
     }
+
     public static FileBackedTaskManager loadFromFile(File file) throws IOException {
-        FileBackedTaskManager manager = new FileBackedTaskManager("C:\\Users\\1\\Desktop\\AllTasks.csv");
+        FileBackedTaskManager manager = new FileBackedTaskManager(file.getAbsolutePath());//исправил
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -61,26 +63,25 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
 
                 String[] parts = line.split(",");
                 int id = Integer.parseInt(parts[0]);
-                TaskType type =TaskType.valueOf(parts[1]);
+                TaskType type = TaskType.valueOf(parts[1]);
                 String name = parts[2];
-                Status status =Status.valueOf(parts[3]);
+                Status status = Status.valueOf(parts[3]);
                 String description = parts[4];
                 Integer epicId = parts.length > 5 && !parts[5].isEmpty() ? Integer.parseInt(parts[5]) : null;
 
                 switch (type) {
                     case TaskType.TASK:
-                        manager.getTasks().put(id, new Task(id,type, name, status, description));
+                        manager.getTasks().put(id, new Task(id, type, name, status, description));
                         break;
                     case TaskType.EPIC:
                         manager.getEpics().put(id, new Epic(id, type, name, status, description));
                         break;
                     case TaskType.SUBTASK:
-                        SubTask subTask = new SubTask(id,type, name, status, description,epicId);
+                        SubTask subTask = new SubTask(id, type, name, status, description, epicId);
                         subTask.setYourEpicId(epicId);
                         manager.getSubTasks().put(id, subTask);
                         break;
                 }
-
             }
         }
 
@@ -89,17 +90,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
 
     @Override
     public void addTask(Task task) {
-       /* for (Task existingTask : super.getTasks().values()) {
-            if (existingTask.equals(task)) {
-                // Задача с такими же полями уже существует в HashMap
-                System.out.println("Задача с такими же данными уже существует.");
-                return; // Выходим из метода, не добавляя задачу
-            }
-        }
-        super.getTasks().put(idTask, task);
-        task.setId(idTask);
-        task.setTaskType(TaskType.TASK);
-        idTask++;*/
         super.addTask(task);
         save();
     }
@@ -111,13 +101,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
 
     @Override
     public void addEpics(Epic epic) {
-       super.addEpics(epic);
+        super.addEpics(epic);
         save();
     }
+
     @Override
     public void addSubTask(SubTask subTask, int epicId) {
-     super.addSubTask(subTask,epicId);
-     save();
+        super.addSubTask(subTask, epicId);
+        save();
     }
 
     @Override
@@ -161,7 +152,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
 
     @Override
     public String getTaskById(int id) {
-     return   super.getTaskById(id);
+        return super.getTaskById(id);
     }
 
     @Override
@@ -208,10 +199,4 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         super.deleteSubTask(id);
         save();
     }
-
-
-
-
-
-
 }

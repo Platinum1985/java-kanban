@@ -1,4 +1,5 @@
 package Test;
+
 import manager.FileBackedTaskManager;
 import model.Status;
 import model.Task;
@@ -13,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FileBackedTaskManagerTest {
     private File tempFile;
+    private FileBackedTaskManager manager;
 
     @BeforeEach
     void setUp() throws IOException {
         tempFile = File.createTempFile("temp", ".csv");
+        manager = new FileBackedTaskManager(tempFile.getAbsolutePath());
     }
 
     @AfterEach
@@ -28,7 +31,6 @@ class FileBackedTaskManagerTest {
 
     @Test
     void testSaveAndLoadEmptyFile() throws IOException {
-        FileBackedTaskManager manager = new FileBackedTaskManager(tempFile.getAbsolutePath());
         manager.save();
 
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
@@ -37,8 +39,6 @@ class FileBackedTaskManagerTest {
 
     @Test
     void testSaveMultipleTasks() throws IOException {
-        FileBackedTaskManager manager = new FileBackedTaskManager(tempFile.getAbsolutePath());
-
         manager.addTask(new Task("Задача 1", "Описание задачи 1", Status.NEW));
         manager.addTask(new Task("Задача 2", "Описание задачи 2", Status.IN_PROGRESS));
         manager.addTask(new Task("Задача 3", "Описание задачи 3", Status.DONE));
@@ -48,8 +48,6 @@ class FileBackedTaskManagerTest {
 
     @Test
     void testLoadMultipleTasks() throws IOException {
-        FileBackedTaskManager manager = new FileBackedTaskManager(tempFile.getAbsolutePath());
-
         manager.addTask(new Task("Задача 1", "Описание задачи 1", Status.NEW));
         manager.addTask(new Task("Задача 2", "Описание задачи 2", Status.IN_PROGRESS));
         manager.addTask(new Task("Задача 3", "Описание задачи 3", Status.DONE));

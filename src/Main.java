@@ -42,28 +42,5 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-      /*  TaskManager t1 = new FileBackedTaskManager("C:\\Users\\1\\Desktop\\AllTasks.csv");
-
-        //  Task task2 = new Task("Покупка Авто", "Желательно Порше", Status.NEW);
-
-        t1.addTask(new Task("0 Переезд", "В теплые края", Status.NEW));
-        t1.addTask(new Task("1 Переезд", "В теплые края", Status.NEW));
-        t1.addEpics(new Epic("2 Переезд", "В теплые края", Status.NEW));
-        t1.addEpics(new Epic("3 Епотека", "Особняк на берегу моря", Status.NEW));
-        t1.addEpics(new Epic("4 вернуть", "hfjdk", Status.NEW));
-        t1.addSubTask(new SubTask("5 подстрока1", "описание1", Status.NEW), 2);
-        t1.addSubTask(new SubTask("6 подстрока2", "описание2", Status.NEW), 3);
-        System.out.println(t1.getEpicById(2));
-        System.out.println(t1.getEpicById(3));
-        System.out.println(t1.getTaskById(0));
-        System.out.println(t1.getTaskById(1));
-        System.out.println(t1.getSubTaskById(5));
-        System.out.println(t1.getHistory());
-        t1.printAllSubTasks();
-        t1.printAllEpics();
-        System.out.println(t1.printAllSubTasks());
-        System.out.println(t1.getSubTaskById(6));
-        System.out.println(t1.getHistory()); */
-
     }
 }
