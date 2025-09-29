@@ -11,8 +11,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private String filePath;
 
 
-    public FileBackedTaskManager(String filePath) {
+    private FileBackedTaskManager(String filePath) {
         this.filePath = filePath;
+    }
+    public static FileBackedTaskManager create(String filePath) {
+        return new FileBackedTaskManager(filePath);
     }
 
     public void save() {
