@@ -47,7 +47,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка при записи данных в файл: " + e.getMessage());//исправил
+            throw new ManagerSaveException("Ошибка при записи данных в файл: " + e.getMessage());//исправил
         }
     }
 
