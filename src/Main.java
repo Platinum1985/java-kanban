@@ -29,15 +29,18 @@ public class Main {
             System.out.println(loadFile.printAllTasks());
             System.out.println(loadFile.printAllEpics());
             System.out.println(loadFile.printAllSubTasks());
-            loadFile.addTask(new Task("0 Переезд", "В теплые края", Status.NEW));
-            loadFile.addTask(new Task("1 Переезд", "В теплые края", Status.NEW));
-            loadFile.addEpics(new Epic("2 Переезд", "В теплые края", Status.NEW));
-            loadFile.addEpics(new Epic("3 Епотека", "Особняк на берегу моря", Status.NEW));
-            loadFile.addEpics(new Epic("4 вернуть", "hfjdk", Status.NEW));
-            /* loadFile.addSubTask(new SubTask("5 подстрока1", "описание1", Status.NEW), 4);
-            loadFile.addSubTask(new SubTask("6 подстрока2", "описание2", Status.NEW), 3);
-            loadFile.addTask(new Task("После 1 сохранения", "В теплые края", Status.NEW));*/
+            loadFile.addTask(new Task("1 Переезд", Status.NEW, "В теплые края", "2025.11.27 00:01", 600L));
+            loadFile.addTask(new Task("2 Переезд", Status.NEW, "В теплые края", "2025.12.27 00:03", 6L));
+            loadFile.addEpics(new Epic("3 Переезд", Status.NEW, "В теплые края", "2025.12.27 00:03", 0L));
+            loadFile.addEpics(new Epic("4 Епотека", Status.NEW, "Особняк на берегу моря", "2025.10.27 00:06", 0L));
+            loadFile.addEpics(new Epic("5 вернуть", Status.NEW, "hfjdk", "2025.12.27 01:03", 0L));
+            loadFile.addSubTask(new SubTask("6 вернуть", Status.NEW, "hfdk", "2025.11.27 01:03", 75L), 4);
+            loadFile.addSubTask(new SubTask("7 ...ть", Status.NEW, "hfgfjddk", "2025.10.29 01:03", 85L), 4);
+            loadFile.addTask(new Task("8 ...ть", Status.NEW, "hfgfjd123dk", "2026.01.29 01:03", 856L));
+            loadFile.addSubTask(new SubTask("9 34 ...ть", Status.NEW, "hfgfhjkjddk", "2025.10.21 01:03", 15L), 3);
+            //loadFile.addTask(new Task("9 Переезд", Status.NEW, "В теплые края", "2025.12.27 00:03", 6L));
             System.out.println(loadFile.printAllTasks());
+            System.out.println(loadFile.getPrioritizedTasks());
 
         } catch (IOException e) {
             e.printStackTrace();

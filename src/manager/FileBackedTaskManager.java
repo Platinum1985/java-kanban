@@ -3,28 +3,31 @@ package manager;
 import model.*;
 
 import java.io.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private String filePath;
-
+    private Map<Integer, Task> allTasks = new HashMap<>();
 
     private FileBackedTaskManager(String filePath) {
         this.filePath = filePath;
     }
+
     public static FileBackedTaskManager create(String filePath) {
         return new FileBackedTaskManager(filePath);
     }
 
     public void save() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            String title = "id,type,name,status,description,epic";
+            String title = "id,type,name,status,description,epic,startTime,duration";
             bw.write(title);
             bw.newLine(); // Добавляем новую строку после заголовка
 
-            Map<Integer, Task> allTasks = new HashMap<>();
+            //  Map<Integer, Task> allTasks = new HashMap<>();
             for (Map.Entry<Integer, Task> entry : super.getTasks().entrySet()) {
                 allTasks.put(entry.getKey(), entry.getValue());
             }
@@ -39,10 +42,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             for (Task task : allTasks.values()) {
                 if (task instanceof SubTask) {
                     SubTask subTask = (SubTask) task;
-                    bw.write(subTask.getId() + "," + subTask.getTaskType() + "," + subTask.getName() + "," + subTask.getSt() + "," + subTask.getDescription() + "," + subTask.getYourEpicId());
+                    bw.write(subTask.getId() + "," + subTask.getTaskType() + "," + subTask.getName() + "," + subTask.getSt() + "," + subTask.getDescription() + "," + subTask.getYourEpicId() + "," + subTask.getStartTime().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + "," + subTask.getDuration().toMinutes());
                     bw.newLine();
                 } else {
-                    bw.write(task.getId() + "," + task.getTaskType() + "," + task.getName() + "," + task.getSt() + "," + task.getDescription() + ",");
+                    bw.write(task.getId() + "," + task.getTaskType() + "," + task.getName() + "," + task.getSt() + "," + task.getDescription() + "," + "," + task.getStartTime().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")) + "," + task.getDuration().toMinutes() + ",");
                     bw.newLine(); // Добавляем новую строку после каждой записи
                 }
             }
@@ -71,16 +74,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 Status status = Status.valueOf(parts[3]);
                 String description = parts[4];
                 Integer epicId = parts.length > 5 && !parts[5].isEmpty() ? Integer.parseInt(parts[5]) : null;
+                String localDateTime = parts[6];
+                Long duration = Long.parseLong(parts[7]);
 
                 switch (type) {
                     case TaskType.TASK:
-                        manager.getTasks().put(id, new Task(id, type, name, status, description));
+                        manager.getTasks().put(id, new Task(id, type, name, status, description, localDateTime, duration));
                         break;
                     case TaskType.EPIC:
-                        manager.getEpics().put(id, new Epic(id, type, name, status, description));
+                        manager.getEpics().put(id, new Epic(id, type, name, status, description, localDateTime, duration));
                         break;
                     case TaskType.SUBTASK:
-                        SubTask subTask = new SubTask(id, type, name, status, description, epicId);
+                        SubTask subTask = new SubTask(id, type, name, status, description, epicId, localDateTime, duration);
                         subTask.setYourEpicId(epicId);
                         manager.getSubTasks().put(id, subTask);
                         break;
@@ -201,5 +206,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void deleteSubTask(int id) {
         super.deleteSubTask(id);
         save();
+    }
+    @Override
+    public void addTaskEpicSubTaskInTreeSet(Task task){
+super.addTaskEpicSubTaskInTreeSet(task);
+    }
+    @Override
+    public Set getPrioritizedTasks() {
+        return super.getPrioritizedTasks();
     }
 }
