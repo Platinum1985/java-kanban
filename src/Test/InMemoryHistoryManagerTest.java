@@ -3,6 +3,7 @@ package Test;
 import manager.HistoryManager;
 import manager.Managers;
 import manager.TaskManager;
+import manager.TimeOverlapException;
 import model.Epic;
 import model.Status;
 import model.SubTask;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
     @Test
-    public void isSaveValuesHistoryManager() {
+    public void isSaveValuesHistoryManager() throws TimeOverlapException {
         TaskManager taskManager = Managers.getDefault();
         HistoryManager historyManager = Managers.getDefaultHistory();
 

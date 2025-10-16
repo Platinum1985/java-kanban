@@ -2,6 +2,7 @@ package Test;
 
 import manager.InMemoryTaskManager;
 import manager.TaskManager;
+import manager.TimeOverlapException;
 import model.Epic;
 import model.Status;
 import model.SubTask;
@@ -42,7 +43,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void islookingATaskById() {
+    public void islookingATaskById() throws TimeOverlapException {
         Task task = new Task("1 Переезд", Status.NEW, "В теплые края", "2025.11.27 00:01", 600L);
         Epic epic = new Epic("5 вернуть", Status.NEW, "hfjdk", "2025.12.27 01:03", 0L);
         SubTask subTask = new SubTask("9 34 ...ть", Status.NEW, "hfgfhjkjddk", "2025.10.21 01:03", 15L);
@@ -61,7 +62,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void testUniqueIds() {
+    void testUniqueIds() throws TimeOverlapException {
         Task task1 = new Task("1 Переезд", Status.NEW, "В теплые края", "2025.11.27 00:01", 600L);
         Task task2 = new Task("2 Переезд", Status.NEW, "В теплые края", "2025.11.28 00:03", 200L);
         // Добавляем задачи с уникальными id
@@ -72,7 +73,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void testTaskImmutabilityAfterAdding() {
+    void testTaskImmutabilityAfterAdding() throws TimeOverlapException {
         Task task = new Task("1 Переезд", Status.NEW, "В теплые края", "2025.11.27 00:01", 600L);
         Epic epic = new Epic("5 вернуть", Status.NEW, "hfjdk", "2025.12.27 01:03", 0L);
         SubTask subTask = new SubTask("7 ...ть", Status.NEW, "hfgfjddk", "2025.10.29 01:03", 85L);
@@ -121,7 +122,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void testTimeOverlapTask() {
+    void testTimeOverlapTask() throws TimeOverlapException {
         // Создаем задачи с различными временными интервалами
         Task task1 = new Task("1 Переезд", Status.NEW, "В теплые края", "2025.11.27 00:01", 10L);
         Task task2 = new Task("1 Переезд", Status.NEW, "В теплые края", "2025.11.27 00:00", 1L);

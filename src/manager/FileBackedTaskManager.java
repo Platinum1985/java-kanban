@@ -27,7 +27,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             bw.write(title);
             bw.newLine(); // Добавляем новую строку после заголовка
 
-            //  Map<Integer, Task> allTasks = new HashMap<>();
             for (Map.Entry<Integer, Task> entry : super.getTasks().entrySet()) {
                 allTasks.put(entry.getKey(), entry.getValue());
             }
@@ -97,9 +96,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void addTask(Task task) {
-        super.addTask(task);
-        save();
+    public void addTask(Task task) throws TimeOverlapException {
+        if (hasTimeOverlap(task)) {
+            throw new TimeOverlapException("Время подзадачи пересекается с уже добавленной задачей");
+        } else {
+            super.addTask(task);
+            save();
+        }
     }
 
     @Override
@@ -114,9 +117,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void addSubTask(SubTask subTask, int epicId) {
-        super.addSubTask(subTask, epicId);
-        save();
+    public void addSubTask(SubTask subTask, int epicId) throws TimeOverlapException {
+        if (hasTimeOverlap(subTask)) {
+            throw new TimeOverlapException("Время подзадачи пересекается с уже добавленной задачей");
+        } else {
+            super.addSubTask(subTask, epicId);
+            save();
+        }
     }
 
     @Override
@@ -207,12 +214,23 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.deleteSubTask(id);
         save();
     }
-    @Override
-    public void addTaskEpicSubTaskInTreeSet(Task task){
-super.addTaskEpicSubTaskInTreeSet(task);
-    }
+
     @Override
     public Set getPrioritizedTasks() {
         return super.getPrioritizedTasks();
+    }
+    private boolean hasTimeOverlap(Task task) {
+        LocalDateTime startTime = task.getStartTime();
+        Duration duration = task.getDuration();
+        LocalDateTime endTime = startTime.plus(duration);
+
+        return allTasks.values().stream()
+                .anyMatch(existingTask -> {
+                    LocalDateTime existingStartTime = existingTask.getStartTime();
+                    Duration existingDuration = existingTask.getDuration();
+                    LocalDateTime existingEndTime = existingStartTime.plus(existingDuration);
+
+                    return startTime.isBefore(existingEndTime) && endTime.isAfter(existingStartTime);
+                });
     }
 }

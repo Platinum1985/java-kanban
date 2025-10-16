@@ -29,7 +29,7 @@ public class InMemoryTaskManager implements TaskManager {
             .thenComparing(t -> t.getId()));
 
 
-    public void addTask(Task task) {
+    public void addTask(Task task) throws TimeOverlapException {
         for (Task existingTask : tasks.values()) {
             if (existingTask.equals(task)) {
                 System.out.println("Задача с такими же данными уже существует.");
@@ -38,12 +38,10 @@ public class InMemoryTaskManager implements TaskManager {
         }
         boolean hasOverlap = tasks.values().stream()
                 .flatMap(existingTask -> subTasks.values().stream()
-                        .map(subTask -> isTimeOverlap(existingTask, subTask)))
+                         .map(subTask -> isTimeOverlap(existingTask, subTask)))
                 .anyMatch(result -> result);
         if (hasOverlap) {
-            System.out.println("Интервал времени выполнения добавляемой задачи " +
-                    "совпадает с интервалом другой задачи\n" + "задача " + task + " не добавлена в список задач");
-            return;
+            throw new  TimeOverlapException("Интервал времени выполнения добавляемой задачи совпадает с интервалом другой задачи");
         }
         task.setId(idTask);
         task.setTaskType(TaskType.TASK);
@@ -76,15 +74,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addSubTask(SubTask subTask, int epicId) {
+    public void addSubTask(SubTask subTask, int epicId) throws TimeOverlapException {
         boolean hasOverlap = tasks.values().stream()
                 .flatMap(task -> subTasks.values().stream()
                         .map(subTaskFromMap -> isTimeOverlap(task, subTask)))
                 .anyMatch(result -> result);
         if (hasOverlap) {
-            System.out.println("Интервал времени выполнения добавляемой задачи " +
-                    "совпадает с интервалом другой задачи\n" + "задача " + subTask + " не добавлена в список задач");
-            return;
+          throw new  TimeOverlapException("Интервал времени выполнения добавляемой задачи совпадает с интервалом другой задачи");
 
         }
         subTask.setId(idTask);
@@ -94,9 +90,7 @@ public class InMemoryTaskManager implements TaskManager {
             subTask.setYourEpicId(epicId);
             subTask.setTaskType(TaskType.SUBTASK);
             epic.subTaskIds.add(idTask);
-            if (!sortedTasks.contains(subTask)) {
-                sortedTasks.add(subTask);
-            }
+            sortedTasks.add(subTask);
             idTask++;
             epic.setDuration(0L);
             epic.setStartTime(
@@ -309,11 +303,8 @@ public class InMemoryTaskManager implements TaskManager {
         return tasks;
     }
 
-    public void addTaskEpicSubTaskInTreeSet(Task task) {
 
-    }
-
-    public Set getPrioritizedTasks() {
+    public Set<Task> getPrioritizedTasks() {
         return sortedTasks;
     }
 
