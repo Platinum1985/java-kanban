@@ -1,10 +1,18 @@
 package model;
 
-public class SubTask extends Task {
-    public SubTask(int id,TaskType type, String name, Status status, String description,int yourEpicId) {
-        super(id,type,name,status,description);
-        this.setYourEpicId(yourEpicId);
+import java.time.Duration;
+import java.time.LocalDateTime;
 
+public class SubTask extends Task {
+    public SubTask(String name, Status status, String description,  String localDateTime, Long duration) {
+        super(name, status,description,localDateTime,duration);
+
+
+    }
+
+    public SubTask(int id, TaskType type, String name, Status status, String description, Integer epicId, String localDateTime, Long duration) {
+        super(id,type,name,status,description,localDateTime,duration);
+        this.yourEpicId=epicId;
     }
 
     public void setYourEpicId(int yourEpicId) {
@@ -13,10 +21,10 @@ public class SubTask extends Task {
 
     int yourEpicId=-1;
 
-    public SubTask(String name, String description, Status st) {
+   /* public SubTask(String name, String description, Status st) {
 
         super(name, description, st);
-    }
+    }*/
 
 
     @Override

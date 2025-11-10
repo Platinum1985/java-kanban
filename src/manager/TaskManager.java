@@ -10,11 +10,11 @@ public interface TaskManager {
 
     Collection<Task> getHistory();
 
-    void addTask(Task task);
+    void addTask(Task task) throws TimeOverlapException;
 
     void addEpics(Epic epic);
 
-    void addSubTask(SubTask subTask, int epicId);
+    void addSubTask(SubTask subTask, int epicId) throws TimeOverlapException;
 
     String printAllTasks();
 

@@ -1,34 +1,32 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
-    //private String name="В этом причина??";
-   // private String description; //"Описание"
-   // private Status st = Status.NEW;
     public List<Integer> subTaskIds = new ArrayList<>();
-   // private int id = -1;
-   // private  TaskType taskType ;
-
-    public Epic(String name, String description, Status st) {
-
-        super(name, description, st);
+    private LocalDateTime endTime;
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
-    public Epic(int id,TaskType type, String name, Status status, String description) {
-        super(id,type,name, status,description);
-       /* this.setId(id);
-        this.setTaskType(TaskType.valueOf(type));
-        this.setName(name);
-        this.setSt(Status.valueOf(status));
-        this.setDescription(description); */
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 
 
+    public Epic(String name,  Status status, String description,String localeDateTime,Long duration) {
+        super(name, status,description,localeDateTime,duration);
+    }
+
+    public Epic(int id, TaskType type, String name, Status status, String description, String localDateTime, Long duration) {
+        super(id,type,name,status,description,localDateTime,duration);
     }
 
     public void addSubTaskId(int subTaskId) {
-
         subTaskIds.add(subTaskId);
     }
 

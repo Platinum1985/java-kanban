@@ -1,6 +1,7 @@
 package Test;
 
 import manager.FileBackedTaskManager;
+import manager.TimeOverlapException;
 import model.Status;
 import model.Task;
 import org.junit.jupiter.api.AfterEach;
@@ -38,19 +39,19 @@ class FileBackedTaskManagerTest {
     }
 
     @Test
-    void testSaveMultipleTasks() throws IOException {
-        manager.addTask(new Task("Задача 1", "Описание задачи 1", Status.NEW));
-        manager.addTask(new Task("Задача 2", "Описание задачи 2", Status.IN_PROGRESS));
-        manager.addTask(new Task("Задача 3", "Описание задачи 3", Status.DONE));
+    void testSaveMultipleTasks() throws IOException, TimeOverlapException {
+        manager.addTask(new Task("1 Переезд", Status.NEW, "В теплые края", "2025.11.27 00:01", 600L));
+        manager.addTask(new Task("2 Переезд", Status.NEW, "В теплые края", "2025.12.27 00:03", 6L));
+        manager.addTask(new Task("8 ...ть", Status.NEW, "hfgfjd123dk", "2026.01.29 01:03", 856L));
 
         manager.save();
     }
 
     @Test
-    void testLoadMultipleTasks() throws IOException {
-        manager.addTask(new Task("Задача 1", "Описание задачи 1", Status.NEW));
-        manager.addTask(new Task("Задача 2", "Описание задачи 2", Status.IN_PROGRESS));
-        manager.addTask(new Task("Задача 3", "Описание задачи 3", Status.DONE));
+    void testLoadMultipleTasks() throws IOException, TimeOverlapException {
+        manager.addTask(new Task("Задача 1", Status.NEW, "В теплые края", "2025.11.27 00:01", 600L));
+        manager.addTask(new Task("Задача 2", Status.NEW, "В теплые края", "2025.12.27 00:03", 6L));
+        manager.addTask(new Task("Задача 3", Status.NEW, "hfgfjd123dk", "2026.01.29 01:03", 856L));
 
         manager.save();
 
