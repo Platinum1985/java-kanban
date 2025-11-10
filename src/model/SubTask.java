@@ -1,5 +1,8 @@
 package model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -18,7 +21,8 @@ public class SubTask extends Task {
     public void setYourEpicId(int yourEpicId) {
         this.yourEpicId = yourEpicId;
     }
-
+@SerializedName("yourEpicId")
+@Expose(serialize = true)
     int yourEpicId=-1;
 
    /* public SubTask(String name, String description, Status st) {

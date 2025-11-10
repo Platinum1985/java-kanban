@@ -13,7 +13,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private String filePath;
     private Map<Integer, Task> allTasks = new HashMap<>();
 
-    private FileBackedTaskManager(String filePath) {
+    public FileBackedTaskManager(String filePath) {
         this.filePath = filePath;
     }
 
@@ -98,12 +98,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public void addTask(Task task) throws TimeOverlapException {
         if (hasTimeOverlap(task)) {
-            throw new TimeOverlapException("Время подзадачи пересекается с уже добавленной задачей");
-        } else {
-            super.addTask(task);
-            save();
+              allTasks.remove(allTasks.size());
+              idTask--;
+              super.getTasks().remove(allTasks.size()+1);
+              save();
+            throw new TimeOverlapException("Время подзадачи пересекается с уже добавленной задачей FileBack");
         }
+        super.addTask(task);
+        save();
     }
+
 
     @Override
     public Collection<Task> getHistory() {
@@ -119,6 +123,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public void addSubTask(SubTask subTask, int epicId) throws TimeOverlapException {
         if (hasTimeOverlap(subTask)) {
+            allTasks.remove(allTasks.size());
+            super.getSubTasks().remove(allTasks.size() + 1);
+            save();
             throw new TimeOverlapException("Время подзадачи пересекается с уже добавленной задачей");
         } else {
             super.addSubTask(subTask, epicId);
@@ -133,8 +140,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void clearTask(HashMap<Integer, Task> hashMap) {
-        super.clearTask(hashMap);
+    public void clearTask() {
+        super.clearTask();
         save();
     }
 
@@ -145,7 +152,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    void clearSubTasks() {
+    public void clearSubTasks() {
         super.clearSubTasks();
         save();
     }
@@ -216,9 +223,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Set getPrioritizedTasks() {
+    public Set<Task> getPrioritizedTasks() {
         return super.getPrioritizedTasks();
     }
+
     private boolean hasTimeOverlap(Task task) {
         LocalDateTime startTime = task.getStartTime();
         Duration duration = task.getDuration();

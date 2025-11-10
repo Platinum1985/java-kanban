@@ -1,13 +1,17 @@
 package model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
+    @SerializedName("subTaskIds")
     public List<Integer> subTaskIds = new ArrayList<>();
-    private LocalDateTime endTime;
+    @SerializedName("epicEndTime")
+     private LocalDateTime endTime;
     @Override
     public LocalDateTime getEndTime() {
         return endTime;
