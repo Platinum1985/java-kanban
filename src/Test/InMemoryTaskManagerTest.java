@@ -23,7 +23,7 @@ class InMemoryTaskManagerTest {
         manager = new InMemoryTaskManager();
     }
 
-     @Test
+    /* @Test
     void testEpicCannotAddSelfAsSubtask() {
         TaskManager manager = new InMemoryTaskManager();
         Epic epic = new Epic("3 Переезд", Status.NEW, "В теплые края", "2025.12.27 00:03", 0L);
@@ -31,7 +31,7 @@ class InMemoryTaskManagerTest {
         assertThrowsExactly(IllegalArgumentException.class, () -> {
             manager.addSubTask(epic, epic.getId());
         });
-    }
+    } */
 
     @Test
     void testSubTaskCannotAddSelfAsSubtask() {

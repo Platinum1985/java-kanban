@@ -45,6 +45,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         task.setId(idTask);
         task.setTaskType(TaskType.TASK);
+        task.setEndTime(task.getEndTime());//перед добавлением в HashMap рассчитали endTime
         tasks.put(idTask, task);
         sortedTasks.add(task);
         idTask++;
@@ -70,6 +71,7 @@ public class InMemoryTaskManager implements TaskManager {
         System.out.println(idTask);
         epic.setTaskType(TaskType.EPIC);
         epics.put(idTask, epic);
+        sortedTasks.add(epic);
         idTask++;
     }
 
@@ -84,6 +86,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         }
         subTask.setId(idTask);
+        subTask.setEndTime(subTask.getEndTime());//перед добавлением в HashMap рассчитали endTime
         subTasks.put(idTask, subTask);
         Epic epic = epics.get(epicId);
         if (epic != null) {
@@ -160,8 +163,8 @@ public class InMemoryTaskManager implements TaskManager {
         return e.getSt().toString();
     }
 
-    public void clearTask(HashMap<Integer, Task> hashMap) {
-        hashMap.clear();
+    public void clearTask() {
+        tasks.clear();
     }
 
     public void clearEpics() {
@@ -170,7 +173,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     }
 
-    void clearSubTasks() {
+    public void clearSubTasks() {
         for (Epic e : epics.values())
             e.subTaskIds.clear();
         subTasks.clear();
@@ -238,6 +241,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task newTask, int id) {
+        newTask.setId(id);
         tasks.put(id, newTask);
 
     }
@@ -250,6 +254,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubTask(SubTask newST, int id) {
+        newST.setId(id);
         subTasks.put(id, newST);
         for (Epic e : epics.values()) {
             for (int j : e.subTaskIds) {
