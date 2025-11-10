@@ -13,6 +13,7 @@ import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.BaseHttpHandler;
 import server.EpicsHandler;
 import server.PrioritizedHandler;
 
@@ -25,16 +26,12 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PrioritizedTest {
+public class PrioritizedTest extends BaseHttpTest {
     // создаём экземпляр InMemoryTaskManager
     InMemoryTaskManager manager = new FileBackedTaskManager("C:\\Users\\1\\Desktop\\AllTasks.csv");
     // передаём его в качестве аргумента в конструктор server.HttpTaskServer
     server.HttpTaskServer taskServer = new server.HttpTaskServer(manager);
-    Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new EpicsHandler.LocalDateTimeAdapter())
-            .registerTypeAdapter(Duration.class, new EpicsHandler.DurationAdapter())
-            .excludeFieldsWithoutExposeAnnotation()
-            .create();
+    Gson gson = BaseHttpHandler.gson;
 
     public PrioritizedTest() throws IOException {
     }
@@ -61,14 +58,8 @@ public class PrioritizedTest {
         manager.addEpics(new Epic("4 вернуть", Status.NEW, "hfjdk", "2025.12.27 01:03", 0L));
         manager.addTask(new Task("5 ...ть", Status.NEW, "hfgfjd123dk", "2026.01.29 01:03", 856L));
         HttpClient client = HttpClient.newHttpClient();
-        URI url = URI.create("http://localhost:8080/prioritized");
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(url)
-                .GET()
-                .timeout(Duration.ofSeconds(10))
-                .header("Content-Type", "application/json;charset=utf-8")
-                .build();
-
+        URI url = createUri("http://localhost:8080/prioritized");
+        HttpRequest request = buildGetRequest(url);
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String jsonString = response.body();
 

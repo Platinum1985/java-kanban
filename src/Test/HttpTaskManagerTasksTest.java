@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import server.BaseHttpHandler;
 import server.EpicsHandler;
 import server.HttpTaskServer;
 import server.TasksHandler;
@@ -28,17 +29,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-public class HttpTaskManagerTasksTest {
+public class HttpTaskManagerTasksTest extends BaseHttpTest{
 
     // создаём экземпляр InMemoryTaskManager
     InMemoryTaskManager manager = new FileBackedTaskManager("C:\\Users\\1\\Desktop\\AllTasks.csv");
     // передаём его в качестве аргумента в конструктор server.HttpTaskServer
     server.HttpTaskServer taskServer = new server.HttpTaskServer(manager);
-    Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new TasksHandler.LocalDateTimeAdapter())
-            .registerTypeAdapter(Duration.class, new TasksHandler.DurationAdapter())
-            .excludeFieldsWithoutExposeAnnotation()
-            .create();
+    Gson gson = BaseHttpHandler.gson;
 
     public HttpTaskManagerTasksTest() throws IOException {
     }
@@ -65,14 +62,8 @@ public class HttpTaskManagerTasksTest {
         String taskJson = gson.toJson(task);
         System.out.println("после json: " + taskJson + "это объект?");
         HttpClient client = HttpClient.newHttpClient();
-        URI url = URI.create("http://localhost:8080/tasks");
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(url)
-                .POST(HttpRequest.BodyPublishers.ofString(taskJson))
-                .timeout(Duration.ofSeconds(10))
-                .header("Content-Type", "application/json;charset=utf-8")
-                .build();
-
+        URI url = createUri("http://localhost:8080/tasks");
+        HttpRequest request = buildPostRequest(url,taskJson);
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         // проверяем код ответа
@@ -103,28 +94,19 @@ public class HttpTaskManagerTasksTest {
         HttpClient client = HttpClient.newHttpClient();
         try {
             // Отправляем первый запрос
-            URI url = URI.create("http://localhost:8080/tasks?id=1");
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(url)
-                    .POST(HttpRequest.BodyPublishers.ofString(taskJson))
-                    .build();
+            URI url = createUri("http://localhost:8080/tasks?id=1");
+            HttpRequest request = buildPostRequest(url,taskJson);
             HttpResponse<?> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
 
             // Отправка второго запроса
-            url = URI.create("http://localhost:8080/tasks?id=2");
-            request = HttpRequest.newBuilder()
-                    .uri(url)
-                    .POST(HttpRequest.BodyPublishers.ofString(taskJson2))
-                    .build();
+            url = createUri("http://localhost:8080/tasks?id=2");
+            request =buildPostRequest(url,taskJson2);
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             // Отправка третьего запроса
-            url = URI.create("http://localhost:8080/tasks?id=2");
-            request = HttpRequest.newBuilder()
-                    .uri(url)
-                    .POST(HttpRequest.BodyPublishers.ofString(taskJson3))
-                    .build();
+            url = createUri("http://localhost:8080/tasks?id=2");
+            request = buildPostRequest(url,taskJson3);
             client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(manager.getTasks().size()+"=размер");
             assertEquals(2, manager.getTasks().size());
@@ -147,35 +129,23 @@ public class HttpTaskManagerTasksTest {
         System.out.println("taskgson" + taskJson);
         HttpClient client = HttpClient.newHttpClient();
             // Отправляем первый запрос
-            URI url = URI.create("http://localhost:8080/tasks?id=1");
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(url)
-                    .POST(HttpRequest.BodyPublishers.ofString(taskJson))
-                    .build();
+            URI url = createUri("http://localhost:8080/tasks?id=1");
+            HttpRequest request =buildPostRequest(url,taskJson);
             HttpResponse<?> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
 
             // Отправка второго запроса
-            url = URI.create("http://localhost:8080/tasks?id=2");
-            request = HttpRequest.newBuilder()
-                    .uri(url)
-                    .POST(HttpRequest.BodyPublishers.ofString(taskJson2))
-                    .build();
+            url = createUri("http://localhost:8080/tasks?id=2");
+            request = buildPostRequest(url,taskJson2);
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             // Отправка третьего запроса
-            url = URI.create("http://localhost:8080/tasks?id=3");
-            request = HttpRequest.newBuilder()
-                    .uri(url)
-                    .POST(HttpRequest.BodyPublishers.ofString(taskJson3))
-                    .build();
+            url = createUri("http://localhost:8080/tasks?id=3");
+            request =buildPostRequest(url,taskJson3);
             client.send(request, HttpResponse.BodyHandlers.ofString());
             //Запрос на удаление
-            url = URI.create("http://localhost:8080/tasks?id=2");
-            request = HttpRequest.newBuilder()
-                    .uri(url)
-                    .DELETE()
-                    .build();
+            url = createUri("http://localhost:8080/tasks?id=2");
+            request = buildDeleteRequest(url);
             HttpResponse<String> resp = client.send(request, HttpResponse.BodyHandlers.ofString());
 System.out.println("код ответа = "+resp);
             assertEquals(200, resp.statusCode());

@@ -13,6 +13,7 @@ import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.BaseHttpHandler;
 import server.EpicsHandler;
 import server.PrioritizedHandler;
 import server.TasksHandler;
@@ -30,16 +31,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HttpEpicsTest {
+public class HttpEpicsTest extends BaseHttpTest {
     // создаём экземпляр InMemoryTaskManager
     InMemoryTaskManager manager = new FileBackedTaskManager("C:\\Users\\1\\Desktop\\AllTasks.csv");
     // передаём его в качестве аргумента в конструктор server.HttpTaskServer
     server.HttpTaskServer taskServer = new server.HttpTaskServer(manager);
-    Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new EpicsHandler.LocalDateTimeAdapter())
-            .registerTypeAdapter(Duration.class, new EpicsHandler.DurationAdapter())
-            .excludeFieldsWithoutExposeAnnotation()
-            .create();
+    Gson gson = BaseHttpHandler.gson;
 
     public HttpEpicsTest() throws IOException {
     }
@@ -70,23 +67,11 @@ public class HttpEpicsTest {
         manager.addTask(new Task("8 ...ть", Status.NEW, "hfgfjd123dk", "2026.01.29 01:03", 856L));
         manager.addSubTask(new SubTask("9 34 ...ть", Status.NEW, "hfgfhjkjddk", "2025.10.21 01:03", 15L), 3);
         HttpClient client = HttpClient.newHttpClient();
-        URI url = URI.create("http://localhost:8080/epics?id=4&st=st");
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(url)
-                .GET()
-                .timeout(Duration.ofSeconds(10))
-                .header("Content-Type", "application/json;charset=utf-8")
-                .build();
+        URI url = createUri("http://localhost:8080/epics?id=4&st=st");
+        HttpRequest request = buildGetRequest(url);
         try {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
         String jsonString = response.body();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new EpicsHandler.LocalDateTimeAdapter())
-                .registerTypeAdapter(Duration.class, new EpicsHandler.DurationAdapter())
-                .excludeFieldsWithoutExposeAnnotation()
-                .create();
-
         Type listType = new TypeToken<ArrayList<SubTask>>() {}.getType();//Type-класс для создания типа... круто
         List<SubTask> subTasks = gson.fromJson(jsonString, listType);
 

@@ -13,6 +13,7 @@ import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.BaseHttpHandler;
 import server.SubTasksHandler;
 import server.TasksHandler;
 
@@ -29,16 +30,12 @@ import java.util.Map;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HttpSubTaskTest {
+public class HttpSubTaskTest extends BaseHttpTest{
     // создаём экземпляр InMemoryTaskManager
     InMemoryTaskManager manager = new FileBackedTaskManager("C:\\Users\\1\\Desktop\\AllTasks.csv");
     // передаём его в качестве аргумента в конструктор server.HttpTaskServer
     server.HttpTaskServer taskServer = new server.HttpTaskServer(manager);
-    Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new SubTasksHandler.LocalDateTimeAdapter())
-            .registerTypeAdapter(Duration.class, new SubTasksHandler.DurationAdapter())
-            .excludeFieldsWithoutExposeAnnotation()
-            .create();
+    Gson gson = BaseHttpHandler.gson;
 
     public HttpSubTaskTest() throws IOException {
     }
@@ -72,14 +69,8 @@ public class HttpSubTaskTest {
         // конвертируем её в JSON
 
         HttpClient client = HttpClient.newHttpClient();
-        URI url = URI.create("http://localhost:8080/subTasks");
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(url)
-                .GET()
-                .timeout(Duration.ofSeconds(10))
-                .header("Content-Type", "application/json;charset=utf-8")
-                .build();
-
+        URI url = createUri("http://localhost:8080/subTasks");
+        HttpRequest request =buildGetRequest(url);
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String jsonString = response.body();
         Map<Integer,SubTask> subTasks = gson.fromJson(jsonString, new TypeToken<Map<Integer,SubTask>>() {
