@@ -4,46 +4,88 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="858bad4f-d812-447d-bcae-5bb0e47aa087" name="Changes" comment="" />
+    <list default="true" id="31a45e5d-8d38-4e74-8bb9-12f86d84860e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
-  <component name="ProjectId" id="35XDrHoRjzZaHScZkII1SecJ8XP" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Exception" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="35yxES5HIfosSZKSBRVRANFHelS" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Maven.discount [clean].executor": "Run",
-    "Maven.discount [site,surefire-report:report].executor": "Run",
-    "Maven.discount [site].executor": "Run",
-    "Maven.discount [surefire-report:report].executor": "Run",
-    "Maven.discount [test].executor": "Run",
+    "Application.HomeTheatre.executor": "Run",
+    "Application.Main.executor": "Run",
+    "JUnit.FilmValidationTest.executor": "Run",
+    "JUnit.UserControllerTest.executor": "Run",
+    "Maven.TZ-10-Final [checkstyle:check].executor": "Run",
+    "Maven.TZ-10-Final [clean,install,-X].executor": "Run",
+    "Maven.TZ-10-Final [clean,install,-e,-X].executor": "Run",
+    "Maven.TZ-10-Final [clean,install].executor": "Run",
+    "Maven.TZ-10-Final [clean].executor": "Run",
+    "Maven.TZ-10-Final [compile].executor": "Run",
+    "Maven.TZ-10-Final [dependency:resolve].executor": "Run",
+    "Maven.TZ-10-Final [dependency:tree].executor": "Run",
+    "Maven.TZ-10-Final [install].executor": "Run",
+    "Maven.TZ-10-Final [org.apache.maven.plugins:maven-checkstyle-plugin:3.3.1:checkstyle].executor": "Run",
+    "Maven.TZ-10-Final [package].executor": "Run",
+    "Maven.TZ-10-Final [site].executor": "Run",
+    "Maven.TZ-10-Final [test].executor": "Run",
+    "Maven.TZ-10-Final [validate].executor": "Run",
+    "Maven.TZ-10-Final [verify].executor": "Run",
+    "Maven.homeTheatre [clean].executor": "Run",
+    "Maven.homeTheatre [install].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true"
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "controllers-films-users",
+    "onboarding.tips.debug.path": "C:/Users/1/Desktop/Papka dlya clonov/maven-surefire-practice-main/TZ-10-Final/src/main/java/ru/yandex/practicum/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.externalResources"
   }
 }]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
-      <command value="surefire-report:report" />
-      <command value="mvn surefire-report:report" />
-      <command value="mvn site surefire-report:report" />
+      <command value="mvn compile" />
+      <command value="mvn clean install -X" />
+      <command value="mvn dependency:tree" />
+      <command value="mvn dependency:resolve" />
+      <command value="mvn clean" />
+      <command value="mvn checkstyle:check" />
+      <command value="mvn clean install -e -X" />
+      <command value="mvn clean install" />
     </option>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="858bad4f-d812-447d-bcae-5bb0e47aa087" name="Changes" comment="" />
-      <created>1763247719878</created>
+      <changelist id="31a45e5d-8d38-4e74-8bb9-12f86d84860e" name="Changes" comment="" />
+      <created>1764096004854</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1763247719878</updated>
+      <updated>1764096004854</updated>
     </task>
     <servers />
   </component>
