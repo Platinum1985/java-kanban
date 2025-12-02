@@ -1,10 +1,7 @@
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.homeTheatre.model.Film;
 import ru.yandex.practicum.homeTheatre.controller.FilmController;
-<<<<<<< HEAD
 
-=======
->>>>>>> f4d54b7bf65b151163bef8b082909c5d981ef329
 import java.time.Duration;
 import java.time.LocalDate;
 

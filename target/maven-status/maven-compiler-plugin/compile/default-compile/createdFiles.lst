@@ -1,7 +1,0 @@
-ru\yandex\practicum\homeTheatre\controller\FilmController.class
-ru\yandex\practicum\homeTheatre\exceptions\NoFoundIdException.class
-ru\yandex\practicum\homeTheatre\controller\UserController.class
-ru\yandex\practicum\homeTheatre\model\User.class
-ru\yandex\practicum\homeTheatre\HomeTheatre.class
-ru\yandex\practicum\homeTheatre\model\Film.class
-ru\yandex\practicum\homeTheatre\exceptions\ValidationException.class

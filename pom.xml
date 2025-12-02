@@ -57,15 +57,11 @@
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
-<<<<<<< HEAD
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
         </dependency>
-=======
-
->>>>>>> f4d54b7bf65b151163bef8b082909c5d981ef329
     </dependencies>
     <build>
         <plugins>
@@ -82,14 +78,11 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-<<<<<<< HEAD
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.3.1</version>
             </plugin>
-=======
->>>>>>> f4d54b7bf65b151163bef8b082909c5d981ef329
         </plugins>
     </build>
 

@@ -1,10 +1,7 @@
 package ru.yandex.practicum.homeTheatre.controller;
 
 import lombok.extern.slf4j.Slf4j;
-<<<<<<< HEAD
 import org.springframework.util.StringUtils;
-=======
->>>>>>> f4d54b7bf65b151163bef8b082909c5d981ef329
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.homeTheatre.exceptions.NoFoundIdException;
 import ru.yandex.practicum.homeTheatre.exceptions.ValidationException;
@@ -52,11 +49,7 @@ public class FilmController {
     public Film update(@RequestBody Film film) {
         log.info("Начинается обновление фильма: {}", film);
         // проверяем необходимые условия
-<<<<<<< HEAD
         if (!exists(film)) {
-=======
-        if (!allFilms.containsKey(film.getId())) {
->>>>>>> f4d54b7bf65b151163bef8b082909c5d981ef329
             log.error("Фильм с ID {} не найден", film.getId());
             throw new NoFoundIdException("Пост с id = " + film.getId() + " не найден");
         }
@@ -79,7 +72,6 @@ public class FilmController {
         log.debug("Следующий доступный ID для фильма: {}", nextId);
         return nextId;
     }
-<<<<<<< HEAD
 
     boolean exists(Film film) {
         return allFilms.containsKey(film.getId());
@@ -88,11 +80,6 @@ public class FilmController {
     public static boolean validateFilm(Film f) {
         // Проверка, что название не пустое
         if (!StringUtils.hasText(f.getName())) {
-=======
-    public static boolean validateFilm(Film f) {
-        // Проверка, что название не пустое
-        if (f.getName() == null || f.getName().isEmpty()) {
->>>>>>> f4d54b7bf65b151163bef8b082909c5d981ef329
             log.error("Не заполнено или пустое поле name");
             return false;
         }

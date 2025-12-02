@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.homeTheatre.controller.UserController;
 import ru.yandex.practicum.homeTheatre.model.User;
-<<<<<<< HEAD
 
-=======
->>>>>>> f4d54b7bf65b151163bef8b082909c5d981ef329
 import java.time.LocalDate;
 
 class UserControllerTest {
