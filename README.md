@@ -1,2 +1,2 @@
-# java-kanban
-Repository for homework project.
+# maven-surefire-practice
+Simple project for maven practice

@@ -1,0 +1,11 @@
+ru\yandex\practicum\exceptions\IncorrectFinalPriceException.class
+ru\yandex\practicum\calculators\types\Calculator.class
+ru\yandex\practicum\exceptions\IncorrectDiscountException.class
+ru\yandex\practicum\calculators\DiscountCalculator.class
+ru\yandex\practicum\App.class
+ru\yandex\practicum\calculators\PriceCalculator.class
+ru\yandex\practicum\calculators\SaleCalculator.class
+ru\yandex\practicum\calculators\CalculatorsLoader.class
+ru\yandex\practicum\calculators\CalculatorsFactory.class
+ru\yandex\practicum\calculators\types\PriceItem.class
+ru\yandex\practicum\calculators\types\PriceInformation.class
