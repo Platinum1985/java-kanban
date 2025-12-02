@@ -5,7 +5,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.homeTheatre.exceptions.NoFoundIdException;
 import ru.yandex.practicum.homeTheatre.exceptions.ValidationException;
-import ru.yandex.practicum.homeTheatre.model.Film;
 import ru.yandex.practicum.homeTheatre.model.User;
 
 import java.time.LocalDate;
